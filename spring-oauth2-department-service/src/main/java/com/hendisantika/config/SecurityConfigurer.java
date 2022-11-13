@@ -13,6 +13,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
@@ -77,5 +79,21 @@ public class SecurityConfigurer extends ResourceServerConfigurerAdapter {
     @Bean
     public JwtAccessTokenCustomizer jwtAccessTokenCustomizer(ObjectMapper mapper) {
         return new JwtAccessTokenCustomizer(mapper);
+    }
+
+    @Configuration
+    @ConditionalOnProperty(prefix = "security.oauth2.client", value = "grant-type", havingValue = "client_credentials")
+    public static class OAuthRestTemplateConfigurer {
+
+        @Bean
+        public OAuth2RestTemplate oauth2RestTemplate(OAuth2ProtectedResourceDetails details) {
+            OAuth2RestTemplate oAuth2RestTemplate = new OAuth2RestTemplate(details);
+
+            LOG.debug("Begin OAuth2RestTemplate: getAccessToken");
+            /* To validate if required configurations are in place during startup */
+            oAuth2RestTemplate.getAccessToken();
+            LOG.debug("End OAuth2RestTemplate: getAccessToken");
+            return oAuth2RestTemplate;
+        }
     }
 }
