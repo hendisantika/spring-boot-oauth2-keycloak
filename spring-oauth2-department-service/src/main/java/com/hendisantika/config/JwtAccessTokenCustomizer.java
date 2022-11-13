@@ -1,4 +1,4 @@
-package config;
+package com.hendisantika.config;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
