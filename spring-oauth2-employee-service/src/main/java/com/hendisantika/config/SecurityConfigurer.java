@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 
 /**
  * Created by IntelliJ IDEA.
@@ -36,4 +37,9 @@ public class SecurityConfigurer extends ResourceServerConfigurerAdapter {
     private final ResourceServerProperties resourceServerProperties;
 
     private final SecurityProperties securityProperties;
+
+    @Override
+    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+        resources.resourceId(resourceServerProperties.getResourceId());
+    }
 }
