@@ -8,6 +8,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by IntelliJ IDEA.
  * Project : spring-oauth2-employee-service
@@ -48,5 +51,17 @@ public final class SecurityContextUtils {
         }
 
         return username;
+    }
+
+    public static Set<String> getUserRoles() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        Authentication authentication = securityContext.getAuthentication();
+        Set<String> roles = new HashSet<>();
+
+        if (null != authentication) {
+            authentication.getAuthorities()
+                    .forEach(e -> roles.add(e.getAuthority()));
+        }
+        return roles;
     }
 }
