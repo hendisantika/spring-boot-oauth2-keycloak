@@ -1,5 +1,6 @@
 package com.hendisantika.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,5 +71,10 @@ public class SecurityConfigurer extends ResourceServerConfigurerAdapter {
             source.registerCorsConfiguration("/**", securityProperties.getCorsConfiguration());
         }
         return source;
+    }
+
+    @Bean
+    public JwtAccessTokenCustomizer jwtAccessTokenCustomizer(ObjectMapper mapper) {
+        return new JwtAccessTokenCustomizer(mapper);
     }
 }
