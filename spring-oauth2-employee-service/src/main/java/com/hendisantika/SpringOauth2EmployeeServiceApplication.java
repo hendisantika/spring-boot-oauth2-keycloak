@@ -42,7 +42,7 @@ public class SpringOauth2EmployeeServiceApplication {
         private final DepartmentRestClient departmentRestClient;
 
         public String getEmployeeAndDepartment() {
-            String employeeName = "Arun";
+            String employeeName = "Uzumaki Naruto";
             String departmentName = departmentRestClient.getDepartmentName();
 
             return "Employee Service Returned: " + employeeName + ", \nDepartment Service Returned: " + departmentName;
